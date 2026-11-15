@@ -10,13 +10,19 @@ namespace JugadorMonstruo;
 ///
 /// Si mueren todos los humanos, el propio juego da el nivel por perdido y lleva a todos a la arena
 /// (la "batalla de los perdedores"). Eso no lo tocamos: solo añadimos, para todos los jugadores con
-/// el mod, un aviso de que ha ganado el monstruo y quién era. El aviso se dibuja en nuestra capa
-/// propia, así que sigue en pantalla mientras carga la arena.
+/// el mod, un aviso de que ha ganado el monstruo y quién era.
+///
+/// El aviso NO se muestra en el momento: quedaría encima de la pantalla de carga y no se leería.
+/// Se guarda como pendiente y aparece cuando el nivel siguiente (la arena) ya está cargado y jugable.
 /// </summary>
 internal static class Final
 {
-    private const float Duracion = 9f;
+    private const float Duracion = 8f;
+    private const float EsperaMaxima = 60f; // si en un minuto no carga nada, se descarta
 
+    private static bool _pendiente;
+    private static int _nivelAlAnunciar;
+    private static float _caducaEn;
     private static float _hasta;
     private static string _nombre = "";
     private static bool _eraYo;
@@ -42,12 +48,37 @@ internal static class Final
         _nombre = nombre ?? "";
         _eraYo = !SemiFunc.IsMultiplayer()
             || (PhotonNetwork.LocalPlayer != null && PhotonNetwork.LocalPlayer.ActorNumber == actorDelMonstruo);
-        _hasta = Time.unscaledTime + Duracion;
+        _pendiente = true;
+        _nivelAlAnunciar = LevelGenerator.Instance ? LevelGenerator.Instance.GetInstanceID() : 0;
+        _caducaEn = Time.unscaledTime + EsperaMaxima;
+    }
+
+    /// <summary>
+    /// ¿Ha terminado ya la carga del nivel siguiente? El juego recarga la escena en cada nivel, así
+    /// que basta con ver un LevelGenerator distinto del que había, ya generado y con la partida en marcha.
+    /// </summary>
+    private static bool SiguienteNivelListo()
+    {
+        LevelGenerator generador = LevelGenerator.Instance;
+        return generador && generador.GetInstanceID() != _nivelAlAnunciar && generador.Generated
+            && GameDirector.instance && GameDirector.instance.currentState == GameDirector.gameState.Main;
     }
 
     /// <summary>Cada frame desde el plugin.</summary>
     public static void Tick()
     {
+        if (_pendiente)
+        {
+            if (SiguienteNivelListo())
+            {
+                _pendiente = false;
+                _hasta = Time.unscaledTime + Duracion;
+            }
+            else if (Time.unscaledTime >= _caducaEn)
+            {
+                _pendiente = false;
+            }
+        }
         if (Time.unscaledTime >= _hasta)
         {
             return;

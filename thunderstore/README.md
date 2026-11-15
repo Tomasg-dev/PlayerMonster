@@ -13,7 +13,7 @@ This is the first public release. It works in multiplayer, but expect rough edge
 - **The level has no AI enemies.** The only monster is a player.
 - **Your first form is random.** After that, every time you respawn you pick your next form from a side panel (left / right arrows). Stronger monsters only unlock on later levels, and each one is locked for a while after you die with it.
 - **Playable monsters (6):** Animal, Reaper, Chef, Bowtie, Huntsman and Tick. More are planned.
-- **The team wins** by extracting as usual. **The monster wins** if the whole team dies: everyone sees "THE MONSTER WINS" and who it was, and the game sends you all to the arena as usual.
+- **The team wins** by extracting as usual. **The monster wins** if the whole team dies: everyone sees "THE MONSTER WINS" and who it was, once the arena has loaded.
 - **Killing the monster** gives the team a breather (and an orb, the first times). It respawns a few seconds later, somewhere far away, as a different monster and slightly tougher.
 
 ## Who is the monster?
@@ -100,7 +100,7 @@ Al empezar cada nivel, a un jugador elegido por sorteo le fallan los circuitos y
 - **El nivel no tiene enemigos propios:** el único monstruo es un jugador.
 - **La primera forma sale al azar.** A partir de ahí, cada vez que reapareces eliges la siguiente en un panel lateral con las flechas izquierda / derecha.
 - **Monstruos jugables (6):** Animal, Reaper, Chef, Bowtie, Huntsman y la garrapata.
-- **Gana el equipo** si extrae; **gana el monstruo** si muere todo el equipo: sale "EL MONSTRUO GANA" con el nombre de quien era, y el juego os lleva a la arena como siempre.
+- **Gana el equipo** si extrae; **gana el monstruo** si muere todo el equipo: sale "EL MONSTRUO GANA" con el nombre de quien era, cuando termina de cargar la arena.
 - **Si matan al monstruo**, reaparece a los pocos segundos, lejos, como otro monstruo distinto y un poco más fuerte.
 
 **¿Quién es el monstruo?** Por defecto se sortea un jugador nuevo en cada nivel. Con la opción `RoundsPerMonster` puedes hacer que el mismo jugador repita varios niveles, o poner `0` para rondas infinitas: el mismo jugador es el monstruo toda la partida, sin alternar entre robot y monstruo.
