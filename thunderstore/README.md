@@ -10,7 +10,7 @@ This is the first public release. It works in multiplayer, but expect rough edge
 
 ## How it plays
 
-- **The level has no AI enemies.** The only monster is a player.
+- **The game does not spawn its regular enemies.** The monster is a player. (Custom levels with their own enemy spawners may still add some.)
 - **Your first form is random.** After that, every time you respawn you pick your next form from a side panel (left / right arrows). Stronger monsters only unlock on later levels, and each one is locked for a while after you die with it.
 - **Playable monsters (6):** Animal, Reaper, Chef, Bowtie, Huntsman and Tick. More are planned.
 - **The team wins** by extracting as usual. **The monster wins** if the whole team dies: everyone sees "THE MONSTER WINS" and who it was, once the arena has loaded.
@@ -97,7 +97,7 @@ Built on BepInEx, HarmonyX and REPOLib. It does not include any game code or ass
 
 Al empezar cada nivel, a un jugador elegido por sorteo le fallan los circuitos y se convierte en un **monstruo real del juego** (mismo modelo, animaciones, sonidos y ataques), que aparece en la otra punta del mapa. El resto del equipo tiene que cumplir la cuota; el monstruo, impedirlo.
 
-- **El nivel no tiene enemigos propios:** el único monstruo es un jugador.
+- **El juego no crea sus enemigos habituales:** el monstruo es un jugador. (Los niveles personalizados con generadores propios pueden añadir alguno.)
 - **La primera forma sale al azar.** A partir de ahí, cada vez que reapareces eliges la siguiente en un panel lateral con las flechas izquierda / derecha.
 - **Monstruos jugables (6):** Animal, Reaper, Chef, Bowtie, Huntsman y la garrapata.
 - **Gana el equipo** si extrae; **gana el monstruo** si muere todo el equipo: sale "EL MONSTRUO GANA" con el nombre de quien era, cuando termina de cargar la arena.

@@ -27,6 +27,57 @@ internal static class Final
     private static string _nombre = "";
     private static bool _eraYo;
 
+    private static float _todosMuertosDesde = -1f;
+
+    /// <summary>
+    /// Cada frame en el anfitrión. Cubre un hueco del juego: cuando mueren todos, RunManager solo
+    /// pasa a la arena si el ANFITRIÓN tiene abierta su cámara de espectador, es decir, si él mismo
+    /// ha muerto de verdad. Cuando el anfitrión es el monstruo no ha "muerto" (solo tiene el robot
+    /// oculto), esa cámara no existe y la partida se quedaba parada con todos los humanos muertos.
+    /// En ese caso damos nosotros la orden, con la misma función que usa el juego.
+    /// </summary>
+    public static void VigilarDerrota()
+    {
+        if (!Mensajes.SoyAutoridad || !SemiFunc.IsMultiplayer() || !Autoridad.Activa || !SemiFunc.RunIsLevel()
+            || !RunManager.instance || RunManager.instance.restarting || RunManager.instance.allPlayersDeadCheckDisabled
+            || !GameDirector.instance || GameDirector.instance.currentState != GameDirector.gameState.Main
+            || GameDirector.instance.PlayerList.Count == 0)
+        {
+            _todosMuertosDesde = -1f;
+            return;
+        }
+
+        // Mismo criterio que el juego: todos los jugadores "desactivados". El robot del monstruo
+        // también lo está, así que esto equivale a "no queda ningún humano vivo".
+        foreach (PlayerAvatar jugador in GameDirector.instance.PlayerList)
+        {
+            if (jugador && !jugador.isDisabled)
+            {
+                _todosMuertosDesde = -1f;
+                return;
+            }
+        }
+
+        // Si el anfitrión sí tiene cámara de espectador, el juego se encarga solo.
+        if (SpectateCamera.instance)
+        {
+            _todosMuertosDesde = -1f;
+            return;
+        }
+
+        if (_todosMuertosDesde < 0f)
+        {
+            _todosMuertosDesde = Time.time;
+        }
+        // Unos segundos de margen para que el último jugador vea su propia muerte, como en el juego.
+        if (Time.time - _todosMuertosDesde >= 5f)
+        {
+            _todosMuertosDesde = -1f;
+            Plugin.Log.LogInfo("Final: no queda ningún humano vivo y el anfitrión es el monstruo; se pasa a la arena.");
+            RunManager.instance.ChangeLevel(false, true);
+        }
+    }
+
     /// <summary>El anfitrión lo llama cuando el nivel se pierde habiendo un jugador-monstruo.</summary>
     public static void Anunciar()
     {

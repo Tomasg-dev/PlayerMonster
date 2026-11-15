@@ -15,7 +15,7 @@ public class Plugin : BaseUnityPlugin
 
 	public const string Nombre = "PlayerMonster";
 
-	public const string Version = "1.0.4";
+	public const string Version = "1.0.0";
 
 	internal static Plugin Instancia;
 
@@ -286,6 +286,7 @@ public class Plugin : BaseUnityPlugin
 		Piloto.EnviarEntrada();
 		Autoridad.Tick();
 		Piloto.Tick();
+		Final.VigilarDerrota();
 		Final.Tick();
 		Aviso.Tick();
 		Seleccion.Tick();
