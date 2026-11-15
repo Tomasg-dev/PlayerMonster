@@ -74,10 +74,15 @@ internal static class Piloto
 		return true;
 	}
 
+	private static float _siguienteEleccion;
+
+	private static float _ultimoEstadoEn;
+
 	public static void RecibirEstado(EstadoMonstruo nuevo)
 	{
 		EstadoMonstruo estado = Estado;
 		Estado = nuevo;
+		_ultimoEstadoEn = Time.unscaledTime;
 		if (nuevo.Fase == FaseMonstruo.Transformando && estado.Fase != FaseMonstruo.Transformando)
 		{
 			// En la primera transformación no se elige: el monstruo sale al azar. El panel de
@@ -154,6 +159,20 @@ internal static class Piloto
 		if (Time.time < _mensajeFinalHasta)
 		{
 			Aviso.Mostrar(Idioma.T("ERES EL MONSTRUO", "YOU ARE THE MONSTER"), 130f, Color.red);
+		}
+		// Red de seguridad: mientras somos el monstruo, el anfitrión nos manda el estado diez veces por
+		// segundo. Si deja de llegar (cambió el anfitrión, se cortó, eligió a otro piloto...), dejamos
+		// de ser monstruo en vez de quedarnos atascados con su vista y sin robot.
+		if (!Mensajes.SoyAutoridad && Activo && Time.unscaledTime - _ultimoEstadoEn > 3f)
+		{
+			Plugin.Log.LogWarning("Piloto: hace 3 s que no llega el estado del anfitrión; vuelvo a ser robot.");
+			RecibirEstado(default);
+		}
+		// Los efectos de vista solo valen mientras se controla un monstruo vivo.
+		if (Estado.Fase != FaseMonstruo.Vivo)
+		{
+			Sentidos.Ocultar();
+			Camara.MostrarModelo();
 		}
 		// Se publica cada frame (solo envía si cambia): también "ninguno" al dejar de ser monstruo.
 		RedMonstruo.AnunciarEnemigo(Enemigo);
@@ -236,11 +255,14 @@ internal static class Piloto
 
 	private static void EnviarEleccion()
 	{
+		// Se envía al cambiar y, además, se repite dos veces por segundo mientras el panel está
+		// abierto: así un mensaje perdido o llegado a destiempo no deja al anfitrión sin la elección.
 		TipoMonstruo? cursor = Seleccion.Cursor;
-		if (_eleccionPendiente || cursor != _eleccionEnviada)
+		if (_eleccionPendiente || cursor != _eleccionEnviada || Time.unscaledTime >= _siguienteEleccion)
 		{
 			_eleccionPendiente = false;
 			_eleccionEnviada = cursor;
+			_siguienteEleccion = Time.unscaledTime + 0.5f;
 			Mensajes.EnviarEleccion(cursor);
 		}
 	}

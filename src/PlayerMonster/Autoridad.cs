@@ -112,6 +112,10 @@ internal static class Autoridad
 
 	public static void RecibirEleccion(TipoMonstruo? tipo)
 	{
+		if (tipo != _eleccionPiloto)
+		{
+			Plugin.Log.LogInfo("Selección: el piloto pide " + (tipo.HasValue ? tipo.Value.ToString() : "al azar") + ".");
+		}
 		_eleccionPiloto = tipo;
 	}
 
@@ -365,7 +369,13 @@ internal static class Autoridad
 
 	private static void TickEsperando()
 	{
-		if (!(Time.time < _reaparecerEn) && !Iniciar(Seleccion.Resolver(_eleccionPiloto)))
+		if (Time.time < _reaparecerEn)
+		{
+			return;
+		}
+		TipoMonstruo elegido = Seleccion.Resolver(_eleccionPiloto);
+		Plugin.Log.LogInfo("Selección: reaparece como " + elegido + " (el piloto pidió " + (_eleccionPiloto.HasValue ? _eleccionPiloto.Value.ToString() : "al azar") + ").");
+		if (!Iniciar(elegido))
 		{
 			Soltar("no se pudo reaparecer");
 		}

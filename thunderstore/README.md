@@ -74,6 +74,10 @@ Everything is configurable in `BepInEx/config/tommy777.playermonster.cfg` or in-
 - `Humans / ...`: heartbeat distances and volume, truck rule. These are each player's own settings.
 - `Camera / ...`: first / third person and camera distance.
 
+## Updating from a test build
+
+If you tried an earlier test build called **JugadorMonstruo**, remove it. It is the same mod under its old name, and with both installed you get two monsters and a broken HUD. PlayerMonster disables itself and shows a warning if it finds the old one.
+
 ## Known issues
 
 - Tested on R.E.P.O. **v0.5.1** only. Game updates may break it.

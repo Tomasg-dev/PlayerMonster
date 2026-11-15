@@ -42,7 +42,7 @@ internal static class HunterPatch
 			Apuntar(__instance, entrada);
 			break;
 		case EnemyHunter.State.Shoot:
-			__instance.StateShoot();
+			Disparar(__instance);
 			break;
 		case EnemyHunter.State.ShootEnd:
 			__instance.StateShootEnd();
@@ -105,6 +105,31 @@ internal static class HunterPatch
 		{
 			hunter.UpdateState(EnemyHunter.State.Shoot);
 		}
+	}
+
+	/// <summary>
+	/// El disparo original sale en la dirección en la que mira el arma en ese instante. El arma gira
+	/// con muelles alrededor de un pivote que no está en el cañón, así que nunca queda apuntando
+	/// exactamente al punto de la mira (en las pruebas el tiro caía por debajo). Para el frame en
+	/// que se calcula el disparo, orientamos el cañón al punto exacto y luego lo dejamos como estaba:
+	/// todo lo demás (impacto, daño, efectos, sonido) sigue siendo el código del juego.
+	/// </summary>
+	private static void Disparar(EnemyHunter hunter)
+	{
+		if (!hunter.stateImpulse)
+		{
+			hunter.StateShoot();
+			return;
+		}
+		Transform arma = hunter.gunAimTransform;
+		Quaternion antes = arma.rotation;
+		Vector3 hacia = PuntoDeMira(hunter) - arma.position;
+		if (hacia.sqrMagnitude > 0.01f)
+		{
+			arma.rotation = Quaternion.LookRotation(hacia);
+		}
+		hunter.StateShoot();
+		arma.rotation = antes;
 	}
 
 	// A dónde apunta el arma: al punto exacto que el piloto tiene bajo la mira (ver Mira.cs).

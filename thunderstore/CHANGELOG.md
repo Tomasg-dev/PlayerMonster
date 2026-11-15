@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+- Huntsman: the shot now lands exactly on the crosshair (it used to land below it).
+- The mod now disables itself and shows a warning if an old `JugadorMonstruo` build is also installed. Running both at once caused two monsters, overlapping HUD text and ignored monster choices.
+- Monster choice on respawn is re-sent while the panel is open, and the host logs what was requested and what was picked.
+- A monster player who stops receiving updates from the host goes back to being a robot instead of getting stuck with the monster's view.
+
 ## 1.0.0 — first public release
 
 - One random player becomes a real game monster each level; the level has no AI enemies.

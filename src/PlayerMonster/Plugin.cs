@@ -15,7 +15,7 @@ public class Plugin : BaseUnityPlugin
 
 	public const string Nombre = "PlayerMonster";
 
-	public const string Version = "1.0.0";
+	public const string Version = "1.0.1";
 
 	internal static Plugin Instancia;
 
@@ -129,7 +129,17 @@ public class Plugin : BaseUnityPlugin
 
 	internal static ConfigEntry<int> RondasPorMonstruo;
 
-	private readonly Harmony _harmony = new Harmony("tomas.jugadormonstruo");
+	private readonly Harmony _harmony = new Harmony(Guid);
+
+	/// <summary>Identificador de las versiones anteriores del mod (JugadorMonstruo 0.x).</summary>
+	private const string GuidAntiguo = "tomas.jugadormonstruo";
+
+	/// <summary>true si además de este mod está cargada una versión antigua: nos apagamos.</summary>
+	internal static bool Conflicto;
+
+	private bool _conflictoComprobado;
+
+	private float _avisoConflictoHasta;
 
 	private void Awake()
 	{
@@ -210,8 +220,44 @@ public class Plugin : BaseUnityPlugin
 		Log.LogInfo($"{Nombre} v{Version} cargado. Por Tommy777 y Dragonico.");
 	}
 
+	/// <summary>
+	/// PlayerMonster y el antiguo JugadorMonstruo son el mismo mod con distinto identificador, así
+	/// que BepInEx carga los dos si ambos están instalados. Juntos, cada uno sortea y crea SU
+	/// monstruo y dibuja SU interfaz: salen dos monstruos, textos superpuestos y elecciones que no
+	/// se respetan. Si detectamos la versión antigua, esta se desactiva por completo y lo avisa.
+	/// Se comprueba en el primer Update, cuando BepInEx ya ha cargado todos los plugins.
+	/// </summary>
+	private void ComprobarConflicto()
+	{
+		_conflictoComprobado = true;
+		if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GuidAntiguo))
+		{
+			return;
+		}
+		Conflicto = true;
+		_harmony.UnpatchSelf();
+		_avisoConflictoHasta = Time.unscaledTime + 60f;
+		Log.LogError("CONFLICTO: también está instalado el mod antiguo 'JugadorMonstruo'. PlayerMonster se ha desactivado. "
+			+ "Quita o desactiva 'JugadorMonstruo' en tu gestor de mods y reinicia el juego. / "
+			+ "CONFLICT: the old 'JugadorMonstruo' mod is also installed. PlayerMonster has disabled itself. "
+			+ "Remove or disable 'JugadorMonstruo' in your mod manager and restart the game.");
+	}
+
 	private void Update()
 	{
+		if (!_conflictoComprobado)
+		{
+			ComprobarConflicto();
+		}
+		if (Conflicto)
+		{
+			if (Time.unscaledTime < _avisoConflictoHasta)
+			{
+				Aviso.Mostrar(Idioma.T("PLAYERMONSTER DESACTIVADO:\nquita el mod antiguo JugadorMonstruo", "PLAYERMONSTER DISABLED:\nremove the old JugadorMonstruo mod"), 54f, Color.yellow);
+			}
+			Aviso.Tick();
+			return;
+		}
 		Keyboard current = Keyboard.current;
 		Keyboard? pruebas = (TeclasDePrueba.Value ? current : null);
 		if (pruebas != null && current[TeclaPosesion.Value].wasPressedThisFrame)
