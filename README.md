@@ -45,15 +45,15 @@ The mod compiles against the DLLs of your own install. **This repository contain
    dotnet build src/PlayerMonster -c Release
    ```
 
-   This also copies the DLL into `BepInEx/plugins/Tommy777-PlayerMonster` of your profile so you can test straight away. Add `-p:DeployToProfile=false` to skip that.
-
-3. To create the zip for Thunderstore:
+3. Create the zip:
 
    ```bash
    scripts/package.sh
    ```
 
-   The zip is written to `dist/`.
+   The zip is written to `dist/`. To test it, import that zip into your mod manager as a local mod (Gale: File > Import > Local mod). That way the manager lists it and you can enable, disable or replace it like any other mod.
+
+   For quick iteration you can instead add `-p:DeployToProfile=true` to the build command: it copies the DLL straight into `BepInEx/plugins/Tommy777-PlayerMonster` of your profile. The manager will not know about that copy, so remember to delete it before importing the zip, or the mod will be installed twice.
 
 ## Releasing a new version
 

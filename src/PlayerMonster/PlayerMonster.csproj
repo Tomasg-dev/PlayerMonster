@@ -51,10 +51,12 @@
   </ItemGroup>
 
   <!--
-    Tras compilar, copia la DLL al perfil del gestor de mods para probarla sin pasos manuales.
-    Se desactiva con:  dotnet build -p:DeployToProfile=false
+    Opcional: copiar la DLL al perfil del gestor de mods nada más compilar, para probar rápido.
+    Está APAGADO por defecto, porque un mod copiado a mano no aparece en el gestor y es fácil
+    acabar con dos copias. Lo normal es crear el zip (scripts/package.sh) e importarlo en el gestor.
+    Se activa con:  dotnet build -p:DeployToProfile=true
   -->
-  <Target Name="CopiarAlPerfil" AfterTargets="Build" Condition="'$(DeployToProfile)' != 'false' And Exists('$(BepInExDir)/plugins')">
+  <Target Name="CopiarAlPerfil" AfterTargets="Build" Condition="'$(DeployToProfile)' == 'true' And Exists('$(BepInExDir)/plugins')">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BepInExDir)/plugins/Tommy777-PlayerMonster" />
     <Message Importance="high" Text="Copiado a $(BepInExDir)/plugins/Tommy777-PlayerMonster" />
   </Target>

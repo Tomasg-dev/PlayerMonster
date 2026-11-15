@@ -15,7 +15,7 @@ if ! grep -q "public const string Version = \"$version\"" src/PlayerMonster/Plug
   exit 1
 fi
 
-dotnet build src/PlayerMonster -c Release -p:DeployToProfile=false
+dotnet build src/PlayerMonster -c Release
 
 temporal="$(mktemp -d)"
 trap 'rm -rf "$temporal"' EXIT
