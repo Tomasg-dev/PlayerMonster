@@ -1,0 +1,10 @@
+{
+  "name": "PlayerMonster",
+  "version_number": "1.0.0",
+  "website_url": "",
+  "description": "Asymmetric mode: each level one random player's circuits fail and they become a REAL game monster (Reaper, Huntsman, Chef...) hunting the team. Works for clients. Rage, senses, respawns and fair-play rules.",
+  "dependencies": [
+    "BepInEx-BepInExPack-5.4.2305",
+    "Zehs-REPOLib-4.3.0"
+  ]
+}

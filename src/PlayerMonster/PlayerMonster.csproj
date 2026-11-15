@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>PlayerMonster</AssemblyName>
+    <RootNamespace>JugadorMonstruo</RootNamespace>
+    <Version>1.0.0</Version>
+    <Authors>Tommy777;Dragonico</Authors>
+    <Product>PlayerMonster</Product>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <DebugType>embedded</DebugType>
+    <!-- Necesario para el publicizer: el compilador deja de comprobar la visibilidad de miembros. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx" HintPath="$(BepInExDir)/core/BepInEx.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(BepInExDir)/core/0Harmony.dll" Private="false" />
+    <Reference Include="REPOLib" HintPath="$(BepInExDir)/plugins/Zehs-REPOLib/REPOLib.dll" Private="false" />
+
+    <!--
+      Publicize: compilamos contra una copia de Assembly-CSharp con todo marcado como público, para poder usar
+      campos internal/private del juego sin reflexión. En ejecución se usa la DLL real; Mono no comprueba
+      la visibilidad, así que funciona.
+    -->
+    <Reference Include="Assembly-CSharp" HintPath="$(ManagedDir)/Assembly-CSharp.dll" Private="false" Publicize="true" />
+    <Reference Include="UnityEngine" HintPath="$(ManagedDir)/UnityEngine.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(ManagedDir)/UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="UnityEngine.PhysicsModule" HintPath="$(ManagedDir)/UnityEngine.PhysicsModule.dll" Private="false" />
+    <Reference Include="UnityEngine.AIModule" HintPath="$(ManagedDir)/UnityEngine.AIModule.dll" Private="false" />
+    <!-- Para generar y reproducir el latido del aviso de cercanía. -->
+    <Reference Include="UnityEngine.AudioModule" HintPath="$(ManagedDir)/UnityEngine.AudioModule.dll" Private="false" />
+    <Reference Include="UnityEngine.ParticleSystemModule" HintPath="$(ManagedDir)/UnityEngine.ParticleSystemModule.dll" Private="false" />
+    <!-- Para el aviso en pantalla propio (Canvas + TextMeshPro). -->
+    <Reference Include="UnityEngine.UI" HintPath="$(ManagedDir)/UnityEngine.UI.dll" Private="false" />
+    <Reference Include="UnityEngine.UIModule" HintPath="$(ManagedDir)/UnityEngine.UIModule.dll" Private="false" />
+    <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(ManagedDir)/UnityEngine.TextRenderingModule.dll" Private="false" />
+    <Reference Include="UnityEngine.TextCoreFontEngineModule" HintPath="$(ManagedDir)/UnityEngine.TextCoreFontEngineModule.dll" Private="false" />
+    <Reference Include="UnityEngine.TextCoreTextEngineModule" HintPath="$(ManagedDir)/UnityEngine.TextCoreTextEngineModule.dll" Private="false" />
+    <Reference Include="Unity.TextMeshPro" HintPath="$(ManagedDir)/Unity.TextMeshPro.dll" Private="false" />
+    <!-- El juego usa el Input System nuevo; lo usamos para leer la tecla de posesión. -->
+    <Reference Include="Unity.InputSystem" HintPath="$(ManagedDir)/Unity.InputSystem.dll" Private="false" />
+    <Reference Include="PhotonUnityNetworking" HintPath="$(ManagedDir)/PhotonUnityNetworking.dll" Private="false" />
+    <Reference Include="PhotonRealtime" HintPath="$(ManagedDir)/PhotonRealtime.dll" Private="false" />
+    <Reference Include="Photon3Unity3D" HintPath="$(ManagedDir)/Photon3Unity3D.dll" Private="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!--
+    Tras compilar, copia la DLL al perfil del gestor de mods para probarla sin pasos manuales.
+    Se desactiva con:  dotnet build -p:DeployToProfile=false
+  -->
+  <Target Name="CopiarAlPerfil" AfterTargets="Build" Condition="'$(DeployToProfile)' != 'false' And Exists('$(BepInExDir)/plugins')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BepInExDir)/plugins/Tommy777-PlayerMonster" />
+    <Message Importance="high" Text="Copiado a $(BepInExDir)/plugins/Tommy777-PlayerMonster" />
+  </Target>
+
+</Project>

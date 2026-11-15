@@ -1,0 +1,31 @@
+<Project>
+  <!--
+    Rutas del juego y de BepInEx. El mod se compila contra las DLL que ya tienes instaladas;
+    el repositorio NO incluye ningún archivo del juego.
+
+    Para usar tus propias rutas sin tocar este archivo, crea junto a él un
+    "Directory.Build.props.user" (está en .gitignore) con, por ejemplo:
+
+      <Project>
+        <PropertyGroup>
+          <GameDir>C:\Program Files (x86)\Steam\steamapps\common\REPO</GameDir>
+          <BepInExDir>C:\Users\TU_USUARIO\AppData\Roaming\com.kesomannen.gale\repo\profiles\Default\BepInEx</BepInExDir>
+        </PropertyGroup>
+      </Project>
+
+    También valen las variables de entorno REPO_GAME_DIR y REPO_BEPINEX_DIR,
+    o pasar -p:GameDir=... -p:BepInExDir=... a dotnet build.
+  -->
+  <Import Project="$(MSBuildThisFileDirectory)Directory.Build.props.user" Condition="Exists('$(MSBuildThisFileDirectory)Directory.Build.props.user')" />
+
+  <PropertyGroup>
+    <GameDir Condition="'$(GameDir)' == '' And '$(REPO_GAME_DIR)' != ''">$(REPO_GAME_DIR)</GameDir>
+    <BepInExDir Condition="'$(BepInExDir)' == '' And '$(REPO_BEPINEX_DIR)' != ''">$(REPO_BEPINEX_DIR)</BepInExDir>
+
+    <!-- Valores por defecto: Steam en Linux y el perfil "Default" de Gale. -->
+    <GameDir Condition="'$(GameDir)' == ''">$(HOME)/.local/share/Steam/steamapps/common/REPO</GameDir>
+    <BepInExDir Condition="'$(BepInExDir)' == ''">$(HOME)/.local/share/com.kesomannen.gale/repo/profiles/Default/BepInEx</BepInExDir>
+
+    <ManagedDir>$(GameDir)/REPO_Data/Managed</ManagedDir>
+  </PropertyGroup>
+</Project>
