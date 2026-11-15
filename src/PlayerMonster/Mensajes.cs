@@ -27,6 +27,8 @@ internal static class Mensajes
 
 	private static NetworkedEvent? _evGolpe;
 
+	private static NetworkedEvent? _evVictoria;
+
 	private static float _siguienteGolpe;
 
 	private static EntradaMonstruo _entradaEnviada;
@@ -51,6 +53,7 @@ internal static class Mensajes
 		_evMareo = new NetworkedEvent("PlayerMonster Mareo", AlRecibirMareo);
 		_evRuido = new NetworkedEvent("PlayerMonster Ruido", AlRecibirRuido);
 		_evGolpe = new NetworkedEvent("PlayerMonster Golpe", AlRecibirGolpe);
+		_evVictoria = new NetworkedEvent("PlayerMonster Victoria", AlRecibirVictoria);
 	}
 
 	public static void EnviarEntrada(EntradaMonstruo entrada)
@@ -248,6 +251,25 @@ internal static class Mensajes
 		if (SoyAutoridad && Autoridad.Actual != null && evento.Sender != Autoridad.PilotoActor)
 		{
 			Furia.GolpeAcertado();
+		}
+	}
+
+	/// <summary>El anfitrión avisa a todos de que el equipo ha caído y ha ganado el monstruo.</summary>
+	public static void EnviarVictoria(int actorDelMonstruo, string nombre)
+	{
+		Final.Mostrar(actorDelMonstruo, nombre); // en el propio anfitrión
+		if (SemiFunc.IsMultiplayer())
+		{
+			_evVictoria?.RaiseEvent(new object[2] { actorDelMonstruo, nombre }, NetworkingEvents.RaiseOthers, SendOptions.SendReliable);
+		}
+	}
+
+	private static void AlRecibirVictoria(EventData evento)
+	{
+		if (VieneDelAnfitrion(evento) && evento.CustomData is object[] array && array.Length == 2 && array[0] is int actor && array[1] is string nombre)
+		{
+			// El nombre viene de otro equipo: lo acortamos por si acaso.
+			Final.Mostrar(actor, (nombre.Length > 32) ? nombre.Substring(0, 32) : nombre);
 		}
 	}
 

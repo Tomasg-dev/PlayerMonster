@@ -62,6 +62,7 @@ Hay tres plantillas, según el tipo de ataque:
 |---|---|---|
 | `ModoJuego.cs` | Anfitrión | Decide si hay monstruo en el nivel y arranca la transformación |
 | `Rotacion.cs` | Anfitrión | Sortea al piloto entre quienes tienen la misma versión del mod |
+| `Final.cs` | Anfitrión y todos | Detecta que el equipo ha caído y muestra a todos el aviso de victoria del monstruo |
 | `Furia.cs` | Anfitrión | Barra que limita el ataque; pausa tras acertar |
 | `Presencia.cs` | Anfitrión | Barra que obliga a retirarse; durante la retirada corre la IA original |
 | `ProteccionObjetos.cs` | Anfitrión | El monstruo no rompe objetos de valor |
