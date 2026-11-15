@@ -4,7 +4,7 @@
 
 - One random player becomes a real game monster each level; the level has no AI enemies.
 - Works in multiplayer: any player with the mod (same version as the host) can be the monster.
-- Rotation between levels, including fixed roles for the whole run (`RondasPorMonstruo = 0`).
+- Rotation between levels, including fixed roles for the whole run (`RoundsPerMonster = 0`).
 - 6 playable monsters: Animal, Reaper, Chef, Bowtie, Huntsman, Tick.
 - First form is random; on respawn, a selection panel with 3D preview, level gating and per-monster lockout.
 - Respawn as a different, slightly tougher monster.
@@ -13,4 +13,4 @@
 - For humans: proximity heartbeat, truck protection (with anti-camping), monster voice distorted and coming from the monster.
 - Monster "scent" after a minute without contact.
 - First / third person camera.
-- On-screen text in English and Spanish.
+- On-screen text in English and Spanish; configuration in English.

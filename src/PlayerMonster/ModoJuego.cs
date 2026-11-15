@@ -35,7 +35,7 @@ internal static class ModoJuego
 		{
 			return 0;
 		}
-		if (Plugin.PilotoForzado.Value == ForzarPiloto.PrimerCliente && PhotonNetwork.PlayerListOthers.Length != 0)
+		if (Plugin.PilotoForzado.Value == ForzarPiloto.FirstClient && PhotonNetwork.PlayerListOthers.Length != 0)
 		{
 			int num = int.MaxValue;
 			Player[] playerListOthers = PhotonNetwork.PlayerListOthers;

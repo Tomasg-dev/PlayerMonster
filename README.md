@@ -7,7 +7,7 @@ A mod for [R.E.P.O.](https://store.steampowered.com/app/3241660/REPO/) that turn
 
 Created by **Tommy777**, co-authored by **Dragonico**. A large part of the code was written with AI assistance.
 
-> The code, its comments and the internal docs are in Spanish. On-screen text is in English and Spanish.
+> The code, its comments and the internal docs are in Spanish. Configuration is in English, and on-screen text is in English and Spanish.
 
 ## Repository layout
 
@@ -76,6 +76,10 @@ Each playable enemy is a Harmony patch in `src/PlayerMonster/Parches/` that repl
 ## Reporting bugs
 
 Open an issue and attach the **host's** `BepInEx/LogOutput.log`.
+
+## License
+
+[MIT](LICENSE) © 2026 Tommy777 and Dragonico. You can use, modify and redistribute the code, including in other mods, as long as you keep the copyright notice.
 
 ## Legal
 

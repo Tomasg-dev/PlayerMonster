@@ -7,7 +7,7 @@ public enum IdiomaMod
 {
     /// <summary>Español si el sistema está en español; inglés en cualquier otro caso.</summary>
     Auto,
-    Espanol,
+    Spanish,
     English,
 }
 
@@ -20,7 +20,7 @@ internal static class Idioma
 {
     public static bool EnEspanol => Plugin.IdiomaTextos.Value switch
     {
-        IdiomaMod.Espanol => true,
+        IdiomaMod.Spanish => true,
         IdiomaMod.English => false,
         _ => Application.systemLanguage == SystemLanguage.Spanish,
     };

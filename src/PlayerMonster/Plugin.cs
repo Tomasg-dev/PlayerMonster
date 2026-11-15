@@ -137,60 +137,74 @@ public class Plugin : BaseUnityPlugin
 		Log = Logger;
 		transform.parent = null;
 		gameObject.hideFlags = HideFlags.HideAndDontSave;
-		TeclaPosesion = Config.Bind("Pruebas", "TeclaPosesion", Key.F8, "Tecla para poseer / soltar un enemigo (hito 1: solo host o un jugador).");
-		TeclaCambiarTipo = Config.Bind("Pruebas", "TeclaCambiarTipo", Key.F9, "Tecla para pasar al siguiente tipo de monstruo de prueba.");
-		TeclaMatar = Config.Bind("Pruebas", "TeclaMatar", Key.F10, "Tecla para matar al monstruo que controlas (para probar la reaparición jugando solo).");
-		TeclaRuido = Config.Bind("Pruebas", "TeclaRuido", Key.F11, "Tecla para emitir un ruido delante de la cámara (para probar el oído del Hunter jugando solo).");
-		MonstruoDePrueba = Config.Bind("Pruebas", "MonstruoDePrueba", TipoMonstruo.Runner, "Qué enemigo posee la tecla: usa el más cercano de ese tipo o crea uno delante de ti.");
-		PilotoForzado = Config.Bind("Pruebas", "ForzarPiloto", ForzarPiloto.Nadie, "Saltarse el sorteo y fijar quién es el monstruo: Nadie (sorteo normal), Anfitrion o PrimerCliente. Manda el valor del anfitrión.");
-		RondasPorMonstruo = Config.Bind("Modo", "RondasPorMonstruo", 1, new ConfigDescription("Cuántas rondas seguidas (niveles con monstruo) es monstruo el mismo jugador antes de sortear a otro. 0 = infinitas: el mismo toda la partida. Manda el valor del anfitrión.", new AcceptableValueRange<int>(0, 100)));
-		ModoAutomatico = Config.Bind("Modo", "Automatico", defaultValue: true, "Al empezar cada nivel, un jugador elegido por sorteo se transforma en monstruo sin pulsar nada.");
-		Probabilidad = Config.Bind("Modo", "Probabilidad", 100f, new ConfigDescription("Probabilidad (%) de que haya jugador-monstruo en cada nivel.", new AcceptableValueRange<float>(0f, 100f)));
-		RetrasoTransformacion = Config.Bind("Modo", "RetrasoTransformacion", 8f, "Duración (s) de la secuencia de fallo en los circuitos antes de transformarte.");
-		MonstruoAleatorio = Config.Bind("Modo", "MonstruoAleatorio", defaultValue: true, "Elegir el tipo de monstruo al azar entre los soportados. Si es false, usa MonstruoDePrueba.");
-		SoloJugadorMonstruo = Config.Bind("Modo", "SoloJugadorMonstruo", defaultValue: true, "En los niveles con jugador-monstruo, el juego no crea sus enemigos normales.");
-		ProtegerObjetos = Config.Bind("Monstruo", "ProtegerObjetos", defaultValue: true, "El jugador-monstruo no puede romper objetos de valor (ni con golpes ni empujándolos).");
-		ElegirMonstruo = Config.Bind("Modo", "ElegirMonstruo", defaultValue: true, "Mostrar la lista para elegir monstruo (flechas izquierda / derecha) al transformarte y al reaparecer.");
-		BloqueoDificultad1 = Config.Bind("Equilibrio", "BloqueoDificultad1", 30f, "Segundos que queda bloqueado un monstruo de dificultad 1 después de morir con él.");
-		BloqueoDificultad2 = Config.Bind("Equilibrio", "BloqueoDificultad2", 75f, "Segundos que queda bloqueado un monstruo de dificultad 2 después de morir con él.");
-		BloqueoDificultad3 = Config.Bind("Equilibrio", "BloqueoDificultad3", 150f, "Segundos que queda bloqueado un monstruo de dificultad 3 después de morir con él.");
-		VozCorrupta = Config.Bind("Monstruo", "VozCorrupta", defaultValue: true, "La voz del jugador-monstruo sale del enemigo que controla, distorsionada (solo multijugador).");
-		VozTono = Config.Bind("Monstruo", "VozTono", 0.8f, "Tono de la voz del monstruo (1 = normal, menos = más grave).");
-		UsarFuria = Config.Bind("Equilibrio", "UsarFuria", defaultValue: true, "Barra de furia: limita cuánto tiempo seguido puede atacar el monstruo.");
-		// Claves nuevas a propósito (no reutilizan "VidaPorJugador", etc.): así no se arrastran los
-		// valores antiguos que cada jugador tenga guardados en su archivo de configuración.
-		VidaBase = Config.Bind("Equilibrio", "VidaBase", 0.5f, "Fracción de la vida original del enemigo que tiene el monstruo con un solo humano en el nivel 1.");
-		VidaExtraPorJugador = Config.Bind("Equilibrio", "VidaExtraPorJugador", 0.15f, "Vida que se suma por cada humano a partir del segundo (0.15 = +15 % de la original).");
-		VidaExtraPorNivel = Config.Bind("Equilibrio", "VidaExtraPorNivel", 0.1f, "Crecimiento de la vida por cada nivel a partir del segundo (0.1 = +10 %).");
-		VidaMultiplicadorMaximo = Config.Bind("Equilibrio", "VidaMultiplicadorMaximo", 2.5f, "Tope del multiplicador de vida por jugadores y nivel.");
-		VidaExtraPorMuerte = Config.Bind("Equilibrio", "VidaExtraPorMuerte", 0.1f, "Vida extra cada vez que matan al monstruo en el mismo nivel (hasta 3 muertes).");
-		UsarPresencia = Config.Bind("Equilibrio", "UsarPresencia", defaultValue: true, "El monstruo no puede quedarse junto a los jugadores: al llenarse la barra de presencia se retira solo.");
-		AvisoCercania = Config.Bind("Humanos", "AvisoCercania", defaultValue: true, "Oír un latido (y ver un borde rojo de cerca) cuando el monstruo anda cerca. Es una opción de cada jugador.");
-		CercaniaLejos = Config.Bind("Humanos", "CercaniaLejos", 18f, "Distancia (m) a la que empieza a oírse el latido. Atraviesa paredes.");
-		CercaniaCerca = Config.Bind("Humanos", "CercaniaCerca", 8f, "Distancia (m) a la que aparece además el borde rojo.");
-		CercaniaVolumen = Config.Bind("Humanos", "CercaniaVolumen", 0.7f, new ConfigDescription("Volumen del latido.", new AcceptableValueRange<float>(0f, 1f)));
-		ReglaCamion = Config.Bind("Humanos", "ReglaCamion", defaultValue: true, "Dentro del camión el monstruo no te hace daño, salvo que acampes más de CamionSegundos.");
-		CamionSegundos = Config.Bind("Humanos", "CamionSegundos", 20f, "Segundos seguidos en el camión (con un monstruo vivo) a partir de los cuales deja de protegerte.");
-		PausaTrasGolpe = Config.Bind("Equilibrio", "PausaTrasGolpe", 1.5f, "Segundos sin poder atacar después de que un golpe del monstruo haga daño (monstruos de ataque continuo).");
-		UsarOlfato = Config.Bind("Equilibrio", "UsarOlfato", defaultValue: true, "Si el monstruo lleva mucho sin nadie cerca, ve por un momento hacia dónde está el jugador más cercano.");
-		OlfatoSegundos = Config.Bind("Equilibrio", "OlfatoSegundos", 60f, "Segundos sin ningún jugador a menos de 15 m para que se active el olfato.");
-		PresenciaSegundos = Config.Bind("Equilibrio", "PresenciaSegundos", 30f, "Segundos junto a los jugadores (misma sala o muy cerca) que llenan la barra. Lejos se vacía el doble de rápido.");
-		PresenciaRetirada = Config.Bind("Equilibrio", "PresenciaRetirada", 10f, "Segundos que dura la retirada forzada.");
-		PresenciaRadio = Config.Bind("Equilibrio", "PresenciaRadio", 8f, "Distancia (m) a un jugador que cuenta como 'junto a él' aunque no estén en la misma sala.");
-		TeclasDePrueba = Config.Bind("Pruebas", "TeclasDePrueba", defaultValue: false, "Activar F8-F11 (poseer, cambiar tipo, matar al monstruo, ruido). Apagadas por defecto para partidas reales.");
-		IdiomaTextos = Config.Bind("General", "Idioma", IdiomaMod.Auto, "Idioma de los textos en pantalla / On-screen text language: Auto, Espanol, English.");
-		UsarSentidos = Config.Bind("Equilibrio", "UsarSentidos", defaultValue: true, "Cada monstruo ve el mundo con una limitación propia (túnel, ceguera, mareo...).");
-		CegueraHunter = Config.Bind("Equilibrio", "CegueraHunter", 0.95f, new ConfigDescription("Oscuridad general del Hunter. El centro de la pantalla siempre queda más claro que los bordes.", new AcceptableValueRange<float>(0f, 1f)));
-		TiempoReaparicion = Config.Bind("Equilibrio", "TiempoReaparicion", 12f, "Segundos que tarda el monstruo en reaparecer tras morir.");
-		ProteccionReaparicion = Config.Bind("Equilibrio", "ProteccionReaparicion", 3f, "Segundos de invulnerabilidad al reaparecer.");
-		OrbesMaximos = Config.Bind("Equilibrio", "OrbesMaximos", 2, "Cuántas muertes del monstruo por nivel sueltan orbe de recompensa.");
-		CrearLejos = Config.Bind("Monstruo", "CrearLejos", defaultValue: true, "El monstruo aparece en el punto del nivel más alejado de los jugadores. Si es false, aparece delante de ti.");
-		OcultarCuerpo = Config.Bind("Monstruo", "OcultarCuerpo", defaultValue: true, "El robot del jugador-monstruo desaparece y cuenta como muerto, sin dejar cabeza.");
-		ReutilizarExistente = Config.Bind("Pruebas", "ReutilizarExistente", defaultValue: false, "Poseer el enemigo más cercano de ese tipo que ya esté en el nivel en vez de crear uno nuevo.");
-		EvitarDerrotaEnSolitario = Config.Bind("Pruebas", "EvitarDerrotaEnSolitario", defaultValue: true, "Jugando solo, evita que el nivel se dé por perdido al convertirte en monstruo.");
-		TeclaCamara = Config.Bind("Camara", "TeclaCamara", Key.V, "Tecla para alternar entre primera y tercera persona siendo monstruo.");
-		PrimeraPersona = Config.Bind("Camara", "PrimeraPersona", defaultValue: false, "Ver desde los ojos del monstruo en vez de desde detrás.");
-		DistanciaCamara = Config.Bind("Camara", "Distancia", 3.5f, "Distancia de la cámara en tercera persona detrás del monstruo.");
+		// Los nombres de sección, de opción y las descripciones van en inglés: es lo que ve el público
+		// en el archivo .cfg y en REPOConfig. Los nombres de las variables siguen en español.
+
+		// --- General ---
+		IdiomaTextos = Config.Bind("General", "Language", IdiomaMod.Auto, "On-screen text language: Auto (Spanish if your system is in Spanish, English otherwise), Spanish or English.");
+
+		// --- Mode: the host's values decide ---
+		ModoAutomatico = Config.Bind("Mode", "Enabled", defaultValue: true, "At the start of each level, one player is drawn and turns into a monster.");
+		Probabilidad = Config.Bind("Mode", "Chance", 100f, new ConfigDescription("Chance (%) that a level has a player-monster.", new AcceptableValueRange<float>(0f, 100f)));
+		RondasPorMonstruo = Config.Bind("Mode", "RoundsPerMonster", 1, new ConfigDescription("How many levels in a row the same player is the monster before another one is drawn. 0 = infinite: the same player for the whole run.", new AcceptableValueRange<int>(0, 100)));
+		SoloJugadorMonstruo = Config.Bind("Mode", "OnlyPlayerMonster", defaultValue: true, "On levels with a player-monster, the game does not spawn its own enemies.");
+		RetrasoTransformacion = Config.Bind("Mode", "TransformationSeconds", 8f, "Length (s) of the circuit-failure sequence before the player transforms.");
+		ElegirMonstruo = Config.Bind("Mode", "ChooseOnRespawn", defaultValue: true, "Show the panel to choose your next monster (left / right arrows) when respawning. The first form is always random.");
+		MonstruoAleatorio = Config.Bind("Mode", "RandomMonster", defaultValue: true, "Pick a random monster among the available ones. If false and ChooseOnRespawn is also false, TestMonster is always used.");
+
+		// --- Monster ---
+		CrearLejos = Config.Bind("Monster", "SpawnFarAway", defaultValue: true, "The monster spawns at the point of the level farthest from the players and the truck. If false, right in front of the player.");
+		OcultarCuerpo = Config.Bind("Monster", "HideRobot", defaultValue: true, "The monster player's robot disappears and counts as dead, leaving no head to revive.");
+		ProtegerObjetos = Config.Bind("Monster", "ProtectValuables", defaultValue: true, "The player-monster cannot break valuables, neither by hitting nor by pushing them.");
+		VozCorrupta = Config.Bind("Monster", "DistortedVoice", defaultValue: true, "The monster player's voice chat comes out of the monster, distorted (multiplayer only).");
+		VozTono = Config.Bind("Monster", "VoicePitch", 0.8f, "Pitch of the monster's voice (1 = normal, lower = deeper).");
+
+		// --- Balance ---
+		VidaBase = Config.Bind("Balance", "HealthBase", 0.5f, "Fraction of the enemy's original health the monster has with a single human on level 1.");
+		VidaExtraPorJugador = Config.Bind("Balance", "HealthPerExtraPlayer", 0.15f, "Health added for each human beyond the first (0.15 = +15 % of the original).");
+		VidaExtraPorNivel = Config.Bind("Balance", "HealthPerLevel", 0.1f, "Health growth for each level beyond the first (0.1 = +10 %).");
+		VidaMultiplicadorMaximo = Config.Bind("Balance", "HealthMaxMultiplier", 2.5f, "Cap for the health multiplier from players and level.");
+		VidaExtraPorMuerte = Config.Bind("Balance", "HealthPerDeath", 0.1f, "Extra health each time the monster is killed on the same level (up to 3 deaths).");
+		UsarFuria = Config.Bind("Balance", "RageBar", defaultValue: true, "Rage bar: limits how long the monster can keep attacking.");
+		PausaTrasGolpe = Config.Bind("Balance", "HitPauseSeconds", 1.5f, "Seconds without attacking after a hit from the monster deals damage (hold-to-attack monsters).");
+		UsarPresencia = Config.Bind("Balance", "PresenceBar", defaultValue: true, "The monster cannot stay next to the players: when the presence bar fills up, it retreats on its own.");
+		PresenciaSegundos = Config.Bind("Balance", "PresenceFillSeconds", 30f, "Seconds next to the players (same room or very close) that fill the bar. Away from them it drains twice as fast.");
+		PresenciaRetirada = Config.Bind("Balance", "PresenceRetreatSeconds", 10f, "Length (s) of the forced retreat.");
+		PresenciaRadio = Config.Bind("Balance", "PresenceRadius", 8f, "Distance (m) to a player that counts as 'next to them' even in a different room.");
+		UsarSentidos = Config.Bind("Balance", "Senses", defaultValue: true, "Each monster perceives the world with its own handicap (tunnel vision, blindness, dizziness...).");
+		CegueraHunter = Config.Bind("Balance", "HuntsmanDarkness", 0.95f, new ConfigDescription("Overall darkness of the Huntsman's view. The centre of the screen is always brighter than the edges.", new AcceptableValueRange<float>(0f, 1f)));
+		UsarOlfato = Config.Bind("Balance", "Scent", defaultValue: true, "If nobody has been near the monster for a while, it briefly sees a marker towards the closest player.");
+		OlfatoSegundos = Config.Bind("Balance", "ScentSeconds", 60f, "Seconds with no player within 15 m before scent kicks in.");
+		TiempoReaparicion = Config.Bind("Balance", "RespawnSeconds", 12f, "Seconds the monster takes to respawn after dying.");
+		ProteccionReaparicion = Config.Bind("Balance", "RespawnProtectionSeconds", 3f, "Seconds of invulnerability after respawning.");
+		OrbesMaximos = Config.Bind("Balance", "MaxOrbs", 2, "How many monster deaths per level drop a reward orb.");
+		BloqueoDificultad1 = Config.Bind("Balance", "LockSecondsTier1", 30f, "Seconds a tier 1 monster stays locked after you die with it.");
+		BloqueoDificultad2 = Config.Bind("Balance", "LockSecondsTier2", 75f, "Seconds a tier 2 monster stays locked after you die with it.");
+		BloqueoDificultad3 = Config.Bind("Balance", "LockSecondsTier3", 150f, "Seconds a tier 3 monster stays locked after you die with it.");
+
+		// --- Humans: each player's own choice ---
+		AvisoCercania = Config.Bind("Humans", "Heartbeat", defaultValue: true, "Hear a heartbeat (and see a red edge up close) when the monster is near. This is each player's own setting.");
+		CercaniaLejos = Config.Bind("Humans", "HeartbeatDistance", 18f, "Distance (m) at which the heartbeat starts. It goes through walls.");
+		CercaniaCerca = Config.Bind("Humans", "RedEdgeDistance", 8f, "Distance (m) at which the red edge also appears.");
+		CercaniaVolumen = Config.Bind("Humans", "HeartbeatVolume", 0.7f, new ConfigDescription("Heartbeat volume.", new AcceptableValueRange<float>(0f, 1f)));
+		ReglaCamion = Config.Bind("Humans", "TruckRule", defaultValue: true, "Inside the truck the monster cannot hurt you, unless you camp there longer than TruckSeconds.");
+		CamionSegundos = Config.Bind("Humans", "TruckSeconds", 20f, "Seconds in a row inside the truck (with a live monster) after which it stops protecting you.");
+
+		// --- Camera ---
+		TeclaCamara = Config.Bind("Camera", "ToggleKey", Key.V, "Key to switch between first and third person as the monster.");
+		PrimeraPersona = Config.Bind("Camera", "FirstPerson", defaultValue: false, "See through the monster's eyes instead of from behind.");
+		DistanciaCamara = Config.Bind("Camera", "Distance", 3.5f, "Third-person camera distance behind the monster.");
+
+		// --- Testing: for development, off by default ---
+		TeclasDePrueba = Config.Bind("Testing", "TestKeys", defaultValue: false, "Enable the test keys below (host only). Leave off for real games.");
+		TeclaPosesion = Config.Bind("Testing", "PossessKey", Key.F8, "Test key: become / stop being the monster.");
+		TeclaCambiarTipo = Config.Bind("Testing", "NextMonsterKey", Key.F9, "Test key: switch TestMonster to the next type.");
+		TeclaMatar = Config.Bind("Testing", "KillKey", Key.F10, "Test key: kill the monster (to test respawning).");
+		TeclaRuido = Config.Bind("Testing", "NoiseKey", Key.F11, "Test key: emit a noise in front of the camera (to test the Huntsman's hearing).");
+		MonstruoDePrueba = Config.Bind("Testing", "TestMonster", TipoMonstruo.Runner, "Monster used by the test key. Internal names: Runner = Reaper, Tumbler = Chef, Hunter = Huntsman.");
+		PilotoForzado = Config.Bind("Testing", "ForcePilot", ForzarPiloto.None, "Skip the draw and fix who is the monster: None (normal draw), Host or FirstClient.");
+		ReutilizarExistente = Config.Bind("Testing", "ReuseExistingEnemy", defaultValue: false, "Possess the closest enemy of that type already in the level instead of spawning a new one.");
+		EvitarDerrotaEnSolitario = Config.Bind("Testing", "NoDefeatWhenSolo", defaultValue: true, "Playing alone, do not fail the level when you become the monster.");
 		Mensajes.Registrar();
 		_harmony.PatchAll();
 		Log.LogInfo($"{Nombre} v{Version} cargado. Por Tommy777 y Dragonico.");

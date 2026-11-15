@@ -18,7 +18,7 @@ This is the first public release. It works in multiplayer, but expect rough edge
 
 ## Who is the monster?
 
-By default a new player is drawn every level, so everyone takes turns. You can change that with `RondasPorMonstruo` (rounds per monster):
+By default a new player is drawn every level, so everyone takes turns. You can change that with the `RoundsPerMonster` option:
 
 - `1` (default): a different player each level.
 - `3`, `5`...: the same player stays the monster for that many levels in a row.
@@ -66,28 +66,26 @@ Manual: install BepInExPack and REPOLib, then copy `PlayerMonster.dll` into `Bep
 
 Everything is configurable in `BepInEx/config/tommy777.playermonster.cfg` or in-game with REPOConfig. **The host's values decide the rules.** Useful ones:
 
-- `General / Idioma`: on-screen text language (`Auto`, `Espanol`, `English`).
-- `Modo / RondasPorMonstruo`: how many levels in a row the same player is the monster (`0` = whole run).
-- `Modo / Probabilidad`: chance of a player-monster on each level (default 100).
-- `Modo / SoloJugadorMonstruo`: turn off to keep the game's own enemies as well.
-- `Equilibrio / ...`: health, rage, presence, respawn and lock times.
-- `Humanos / ...`: heartbeat distances and volume, truck rule.
-
-Option names and descriptions are in Spanish for now.
+- `General / Language`: on-screen text language (`Auto`, `Spanish`, `English`).
+- `Mode / RoundsPerMonster`: how many levels in a row the same player is the monster (`0` = whole run).
+- `Mode / Chance`: chance of a player-monster on each level (default 100).
+- `Mode / OnlyPlayerMonster`: turn off to keep the game's own enemies as well.
+- `Balance / ...`: health, rage, presence, senses, respawn and lock times.
+- `Humans / ...`: heartbeat distances and volume, truck rule. These are each player's own settings.
+- `Camera / ...`: first / third person and camera distance.
 
 ## Known issues
 
 - Tested on R.E.P.O. **v0.5.1** only. Game updates may break it.
 - Not tested with other mods that add or change enemies.
 - The monster moves on the host, so a monster player with high ping will feel input delay.
-- Config descriptions are Spanish-only.
 
 Please report bugs with your `BepInEx/LogOutput.log` (the host's log is the most useful).
 
 ## Credits
 
 Created by **Tommy777**, co-authored by **Dragonico**. A large part of the code was written with AI assistance.
-Built on BepInEx, HarmonyX and REPOLib. It does not include any game code or assets.
+Built on BepInEx, HarmonyX and REPOLib. It does not include any game code or assets. Source code under the MIT license.
 
 ---
 
@@ -101,7 +99,7 @@ Al empezar cada nivel, a un jugador elegido por sorteo le fallan los circuitos y
 - **Gana el equipo** si extrae; **gana el monstruo** si no cumplen la cuota o mueren todos.
 - **Si matan al monstruo**, reaparece a los pocos segundos, lejos, como otro monstruo distinto y un poco más fuerte.
 
-**¿Quién es el monstruo?** Por defecto se sortea un jugador nuevo en cada nivel. Con `RondasPorMonstruo` puedes hacer que el mismo jugador repita varios niveles, o poner `0` para rondas infinitas: el mismo jugador es el monstruo toda la partida, sin alternar entre robot y monstruo.
+**¿Quién es el monstruo?** Por defecto se sortea un jugador nuevo en cada nivel. Con la opción `RoundsPerMonster` puedes hacer que el mismo jugador repita varios niveles, o poner `0` para rondas infinitas: el mismo jugador es el monstruo toda la partida, sin alternar entre robot y monstruo.
 
 **Para que sea justo:** barra de furia (limita el ataque), barra de presencia (si se queda con los jugadores, se retira solo), pausa tras cada golpe, sentidos limitados por monstruo, no puede romper el botín, vida escalada por jugadores y nivel, latido de aviso para los humanos, protección en el camión (salvo que acampes más de 20 s) y olfato para el monstruo si lleva un minuto sin encontrar a nadie.
 

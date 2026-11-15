@@ -60,9 +60,9 @@ internal static class Rotacion
 		int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
 		switch (Plugin.PilotoForzado.Value)
 		{
-		case ForzarPiloto.Anfitrion:
+		case ForzarPiloto.Host:
 			return actorNumber;
-		case ForzarPiloto.PrimerCliente:
+		case ForzarPiloto.FirstClient:
 			return list.FirstOrDefault((Player j) => !j.IsLocal)?.ActorNumber ?? actorNumber;
 		default:
 		{
