@@ -42,8 +42,23 @@ internal static class Sentidos
 		_mareadoHasta = Time.time + segundos;
 	}
 
+	private static float _pedidoEn = -1f;
+
+	/// <summary>
+	/// Cada frame desde el plugin. Los efectos de vista se apagan solos si Tick() deja de llamarse,
+	/// pase lo que pase con el resto del mod: nunca deben sobrevivir a la partida.
+	/// </summary>
+	public static void Mantener()
+	{
+		if (_raiz != null && _raiz.activeSelf && Time.unscaledTime - _pedidoEn > 0.25f)
+		{
+			Ocultar();
+		}
+	}
+
 	public static void Tick(TipoMonstruo tipo, Enemy enemy, EntradaMonstruo entrada)
 	{
+		_pedidoEn = Time.unscaledTime;
 		if (!Plugin.UsarSentidos.Value || !PostProcessing.Instance)
 		{
 			Ocultar();

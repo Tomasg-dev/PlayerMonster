@@ -15,7 +15,7 @@ public class Plugin : BaseUnityPlugin
 
 	public const string Nombre = "PlayerMonster";
 
-	public const string Version = "1.0.1";
+	public const string Version = "1.0.2";
 
 	internal static Plugin Instancia;
 
@@ -178,7 +178,7 @@ public class Plugin : BaseUnityPlugin
 		UsarFuria = Config.Bind("Balance", "RageBar", defaultValue: true, "Rage bar: limits how long the monster can keep attacking.");
 		PausaTrasGolpe = Config.Bind("Balance", "HitPauseSeconds", 1.5f, "Seconds without attacking after a hit from the monster deals damage (hold-to-attack monsters).");
 		UsarPresencia = Config.Bind("Balance", "PresenceBar", defaultValue: true, "The monster cannot stay next to the players: when the presence bar fills up, it retreats on its own.");
-		PresenciaSegundos = Config.Bind("Balance", "PresenceFillSeconds", 30f, "Seconds next to the players (same room or very close) that fill the bar. Away from them it drains twice as fast.");
+		PresenciaSegundos = Config.Bind("Balance", "PresenceSeconds", 75f, "Seconds next to the players (same room or very close) that fill the bar. Away from them it drains twice as fast.");
 		PresenciaRetirada = Config.Bind("Balance", "PresenceRetreatSeconds", 10f, "Length (s) of the forced retreat.");
 		PresenciaRadio = Config.Bind("Balance", "PresenceRadius", 8f, "Distance (m) to a player that counts as 'next to them' even in a different room.");
 		UsarSentidos = Config.Bind("Balance", "Senses", defaultValue: true, "Each monster perceives the world with its own handicap (tunnel vision, blindness, dizziness...).");
@@ -292,6 +292,7 @@ public class Plugin : BaseUnityPlugin
 		Cercania.Tick();
 		Camion.Tick();
 		Olfato.Mantener();
+		Sentidos.Mantener();
 		Mira.Mantener();
 	}
 }

@@ -133,12 +133,14 @@ internal static class HunterPatch
 	}
 
 	// A dónde apunta el arma: al punto exacto que el piloto tiene bajo la mira (ver Mira.cs).
-	// Si no hay punto válido, o está pegado al arma, se usa la dirección de su mirada.
+	// Solo si no hay punto válido, o está literalmente encima del cañón, se usa la dirección de la
+	// mirada. (El margen era de 1,5 m: al apuntar a algo cercano se caía en ese caso, el tiro salía
+	// paralelo a la cámara desde el arma y acababa desviado justo lo que el arma dista de los ojos.)
 	private static Vector3 PuntoDeMira(EnemyHunter hunter)
 	{
 		Vector3 arma = hunter.gunAimTransform.position;
 		Vector3 punto = Autoridad.Entrada.PuntoMira;
-		if (punto != Vector3.zero && Vector3.Distance(punto, arma) > 1.5f)
+		if (punto != Vector3.zero && Vector3.Distance(punto, arma) > 0.3f)
 		{
 			return punto;
 		}

@@ -163,9 +163,17 @@ internal static class Piloto
 		// Red de seguridad: mientras somos el monstruo, el anfitrión nos manda el estado diez veces por
 		// segundo. Si deja de llegar (cambió el anfitrión, se cortó, eligió a otro piloto...), dejamos
 		// de ser monstruo en vez de quedarnos atascados con su vista y sin robot.
-		if (!Mensajes.SoyAutoridad && Activo && Time.unscaledTime - _ultimoEstadoEn > 3f)
+		// (Autoridad.Activa solo es true en el anfitrión; así la comprobación vale también cuando el
+		// piloto, al salir de la sala, pasa a contar como "un jugador" y por tanto como autoridad.)
+		if (Activo && !Autoridad.Activa && Time.unscaledTime - _ultimoEstadoEn > 3f)
 		{
 			Plugin.Log.LogWarning("Piloto: hace 3 s que no llega el estado del anfitrión; vuelvo a ser robot.");
+			RecibirEstado(default);
+		}
+		// Al salir del nivel (menú principal, lobby, tienda) se deja de ser monstruo en el acto: antes,
+		// quien salía de la partida siendo el cazador se llevaba su pantalla oscura hasta el menú.
+		if (Activo && !Autoridad.Activa && !SemiFunc.RunIsLevel())
+		{
 			RecibirEstado(default);
 		}
 		// Los efectos de vista solo valen mientras se controla un monstruo vivo.

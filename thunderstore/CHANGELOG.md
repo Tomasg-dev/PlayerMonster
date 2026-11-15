@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+- Huntsman: fixed the shot missing the crosshair when aiming at something close.
+- Leaving the game as the Huntsman no longer leaves the screen dark in the main menu.
+- Presence bar now takes 75 seconds to fill instead of 30 (new option name: `PresenceSeconds`).
+
 ## 1.0.1
 
 - Huntsman: the shot now lands exactly on the crosshair (it used to land below it).
