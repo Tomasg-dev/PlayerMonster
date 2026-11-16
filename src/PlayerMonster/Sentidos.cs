@@ -89,6 +89,20 @@ internal static class Sentidos
 				PostProcessing.Instance.SaturationOverride(-40f, 4f, 2f, 0.2f, gameObject);
 			}
 			break;
+		case TipoMonstruo.Robe:
+			// Ve el mundo apagado y cerrado por los bordes, como tras la máscara.
+			PostProcessing.Instance.SaturationOverride(-60f, 4f, 2f, 0.2f, gameObject);
+			PostProcessing.Instance.VignetteOverride(new Color(0.2f, 0f, 0.25f), 0.55f, 1f, 2f, 2f, 0.2f, gameObject);
+			break;
+		case TipoMonstruo.SlowWalker:
+			// Campo de visión estrecho: es fuerte, pero le cuesta ver lo que tiene a los lados.
+			CameraZoom.Instance.OverrideZoomSet(48f, 0.2f, 2f, 2f, gameObject, 60);
+			PostProcessing.Instance.VignetteOverride(Color.black, 0.5f, 1f, 2f, 2f, 0.2f, gameObject);
+			break;
+		case TipoMonstruo.Beamer:
+			// Colores chillones de circo.
+			PostProcessing.Instance.SaturationOverride(60f, 4f, 2f, 0.2f, gameObject);
+			break;
 		case TipoMonstruo.Bowtie:
 			if (!entrada.Atacar)
 			{

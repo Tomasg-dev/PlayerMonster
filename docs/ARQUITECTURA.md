@@ -53,7 +53,7 @@ Hay tres plantillas, según el tipo de ataque:
 | Plantilla | Ataque | Enemigos |
 |---|---|---|
 | `RunnerPatch` | Mantener el botón | Animal, Reaper |
-| `TumblerPatch` | Secuencia con aviso y recuperación | Chef, Bowtie, Huntsman |
+| `TumblerPatch` | Secuencia con aviso y recuperación | Chef, Bowtie, Huntsman, Robe, Trudge, Clown |
 | `TickPatch` | Necesita una víctima concreta | Garrapata |
 
 ## Mecánicas, un archivo cada una

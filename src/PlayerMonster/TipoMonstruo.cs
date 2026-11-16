@@ -7,5 +7,8 @@ public enum TipoMonstruo
 	Tumbler,
 	Bowtie,
 	Hunter,
-	Tick
+	Tick,
+	Robe,
+	SlowWalker,
+	Beamer
 }

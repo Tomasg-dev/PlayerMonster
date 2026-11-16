@@ -15,7 +15,7 @@ public class Plugin : BaseUnityPlugin
 
 	public const string Nombre = "PlayerMonster";
 
-	public const string Version = "1.0.0";
+	public const string Version = "1.1.0";
 
 	internal static Plugin Instancia;
 
@@ -211,7 +211,7 @@ public class Plugin : BaseUnityPlugin
 		TeclaCambiarTipo = Config.Bind("Testing", "NextMonsterKey", Key.F9, "Test key: switch TestMonster to the next type.");
 		TeclaMatar = Config.Bind("Testing", "KillKey", Key.F10, "Test key: kill the monster (to test respawning).");
 		TeclaRuido = Config.Bind("Testing", "NoiseKey", Key.F11, "Test key: emit a noise in front of the camera (to test the Huntsman's hearing).");
-		MonstruoDePrueba = Config.Bind("Testing", "TestMonster", TipoMonstruo.Runner, "Monster used by the test key. Internal names: Runner = Reaper, Tumbler = Chef, Hunter = Huntsman.");
+		MonstruoDePrueba = Config.Bind("Testing", "TestMonster", TipoMonstruo.Runner, "Monster used by the test key. Internal names: Runner = Reaper, Tumbler = Chef, Hunter = Huntsman, SlowWalker = Trudge, Beamer = Clown.");
 		PilotoForzado = Config.Bind("Testing", "ForcePilot", ForzarPiloto.None, "Skip the draw and fix who is the monster: None (normal draw), Host or FirstClient.");
 		ReutilizarExistente = Config.Bind("Testing", "ReuseExistingEnemy", defaultValue: false, "Possess the closest enemy of that type already in the level instead of spawning a new one.");
 		EvitarDerrotaEnSolitario = Config.Bind("Testing", "NoDefeatWhenSolo", defaultValue: true, "Playing alone, do not fail the level when you become the monster.");

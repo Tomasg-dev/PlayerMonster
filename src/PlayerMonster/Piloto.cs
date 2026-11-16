@@ -225,7 +225,7 @@ internal static class Piloto
 			}
 			Sentidos.Tick(Estado.Tipo, enemigo, entrada);
 			Olfato.Tick(enemigo);
-			if (Estado.Tipo == TipoMonstruo.Hunter)
+			if (Estado.Tipo is TipoMonstruo.Hunter or TipoMonstruo.Beamer)
 			{
 				Mira.Mostrar(entrada.Atacar);
 			}

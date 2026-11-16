@@ -145,6 +145,39 @@ internal static class Presencia
                 return true;
             }
 
+            case TipoMonstruo.Robe:
+            {
+                EnemyRobe c = enemigo.GetComponent<EnemyRobe>();
+                if (c.currentState is not (EnemyRobe.State.Idle or EnemyRobe.State.Roam))
+                {
+                    return false;
+                }
+                c.UpdateState(EnemyRobe.State.Idle);
+                return true;
+            }
+
+            case TipoMonstruo.SlowWalker:
+            {
+                EnemySlowWalker c = enemigo.GetComponent<EnemySlowWalker>();
+                if (c.currentState is not (EnemySlowWalker.State.Idle or EnemySlowWalker.State.Roam))
+                {
+                    return false;
+                }
+                c.UpdateState(EnemySlowWalker.State.Idle);
+                return true;
+            }
+
+            case TipoMonstruo.Beamer:
+            {
+                EnemyBeamer c = enemigo.GetComponent<EnemyBeamer>();
+                if (c.currentState is not (EnemyBeamer.State.Idle or EnemyBeamer.State.Roam or EnemyBeamer.State.Seek))
+                {
+                    return false;
+                }
+                c.UpdateState(EnemyBeamer.State.Idle);
+                return true;
+            }
+
             default:
                 return false;
         }

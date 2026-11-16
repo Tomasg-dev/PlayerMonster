@@ -33,6 +33,9 @@ internal static class Furia
 			TipoMonstruo.Bowtie => new Ajuste(continuo: false, 0f, 6f, 0f), 
 			TipoMonstruo.Hunter => new Ajuste(continuo: false, 0f, 2f, 0f), 
 			TipoMonstruo.Tick => new Ajuste(continuo: false, 0f, 30f, 0f), 
+			TipoMonstruo.Robe => new Ajuste(continuo: false, 0f, 5f, 0f), 
+			TipoMonstruo.SlowWalker => new Ajuste(continuo: false, 0f, 8f, 0f), 
+			TipoMonstruo.Beamer => new Ajuste(continuo: false, 0f, 7f, 0f), 
 			_ => new Ajuste(continuo: true, 3f, 5f, 2.5f), 
 		};
 	}

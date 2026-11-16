@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0 — three new monsters
+
+- New playable monsters: **Robe**, **Trudge** and **Clown** (9 in total).
+- Robe: walks, runs and uses its original slash.
+- Trudge: slow and heavy, with its original mace slam.
+- Clown: laser beam aimed with a crosshair (the sweep is the game's own), and its kick when a player is right next to it.
+- Each new monster has its own senses and rage timing.
+- All players need the same version: 1.0.0 and 1.1.0 do not mix.
+
 ## 1.0.0 — first public release
 
 - One random player becomes a real game monster each level, replacing the game's regular enemies.

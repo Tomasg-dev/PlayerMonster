@@ -16,7 +16,10 @@ internal static class Autoridad
 		[TipoMonstruo.Tumbler] = typeof(EnemyTumbler),
 		[TipoMonstruo.Bowtie] = typeof(EnemyBowtie),
 		[TipoMonstruo.Hunter] = typeof(EnemyHunter),
-		[TipoMonstruo.Tick] = typeof(EnemyTick)
+		[TipoMonstruo.Tick] = typeof(EnemyTick),
+		[TipoMonstruo.Robe] = typeof(EnemyRobe),
+		[TipoMonstruo.SlowWalker] = typeof(EnemySlowWalker),
+		[TipoMonstruo.Beamer] = typeof(EnemyBeamer)
 	};
 
 	private const float CaducidadEntrada = 0.5f;
